@@ -80,6 +80,7 @@
 
         <module>sentinel-demo</module>
         <module>sentinel-benchmark</module>
+        <module>sentinel-demo/sentinel-test</module>
     </modules>
 
     <dependencyManagement>
