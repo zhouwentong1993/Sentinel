@@ -52,6 +52,7 @@ public interface ProcessorSlot<T> {
      * @param args            parameters of the original call
      * @throws Throwable blocked exception or unexpected error
      */
+    // 结束 entry 的调用
     void fireEntry(Context context, ResourceWrapper resourceWrapper, Object obj, int count, boolean prioritized,
                    Object... args) throws Throwable;
 

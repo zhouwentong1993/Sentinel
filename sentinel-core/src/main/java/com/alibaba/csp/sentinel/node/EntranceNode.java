@@ -27,7 +27,7 @@ import com.alibaba.csp.sentinel.slots.nodeselector.NodeSelectorSlot;
  * <p>
  * One {@link Context} will related to a {@link EntranceNode},
  * which represents the entrance of the invocation tree. New {@link EntranceNode} will be created if
- * current context does't have one. Note that same context name will share same {@link EntranceNode}
+ * current context doesn't have one. Note that same context name will share same {@link EntranceNode}
  * globally.
  * </p>
  *
@@ -36,6 +36,7 @@ import com.alibaba.csp.sentinel.slots.nodeselector.NodeSelectorSlot;
  * @see ContextUtil#enter(String, String)
  * @see NodeSelectorSlot
  */
+// 这个 Node 是跟 Context 相关的
 public class EntranceNode extends DefaultNode {
 
     public EntranceNode(ResourceWrapper id, ClusterNode clusterNode) {
