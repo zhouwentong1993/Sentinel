@@ -28,7 +28,7 @@ public abstract class AbstractLinkedProcessorSlot<T> implements ProcessorSlot<T>
     @Override
     public void fireEntry(Context context, ResourceWrapper resourceWrapper, Object obj, int count, boolean prioritized, Object... args)
         throws Throwable {
-        System.out.println("fireEntry invoke! " + this + "--obj:" + obj);
+//        System.out.println("fireEntry invoke! " + this + "--obj:" + obj);
         if (next != null) {
             next.transformEntry(context, resourceWrapper, obj, count, prioritized, args);
         }
@@ -44,7 +44,7 @@ public abstract class AbstractLinkedProcessorSlot<T> implements ProcessorSlot<T>
     @Override
     public void fireExit(Context context, ResourceWrapper resourceWrapper, int count, Object... args) {
         if (next != null) {
-            System.out.println("fireExit invoke!" + this);
+//            System.out.println("fireExit invoke!" + this);
             next.exit(context, resourceWrapper, count, args);
         }
     }

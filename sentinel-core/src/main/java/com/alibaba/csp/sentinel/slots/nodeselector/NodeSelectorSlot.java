@@ -130,7 +130,7 @@ public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
     /**
      * {@link DefaultNode}s of the same resource in different context.
      */
-    private volatile Map<String, DefaultNode> map = new HashMap<String, DefaultNode>(10);
+    private volatile Map<String, DefaultNode> map = new HashMap<>(10);
 
     @Override
     public void entry(Context context, ResourceWrapper resourceWrapper, Object obj, int count, boolean prioritized, Object... args)
@@ -153,8 +153,13 @@ public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
          * The answer is all {@link DefaultNode}s with same resource name share one
          * {@link ClusterNode}. See {@link ClusterBuilderSlot} for detail.
          */
+        // 通过不同的方法进入，判断的逻辑也不相同吗？
+        // 上面的这段注释让我摸不着头脑。
+        // 按照 Context name 来区分，岂不是都是一个 DefaultNode 了，因为默认的 name 就是
         DefaultNode node = map.get(context.getName());
+//        System.out.println("Current context:" + context.hashCode() + ", name is: " + context.getName());
         if (node == null) {
+//            System.out.println("Node is null, context name is:" + context.getName());
             synchronized (this) {
                 node = map.get(context.getName());
                 if (node == null) {

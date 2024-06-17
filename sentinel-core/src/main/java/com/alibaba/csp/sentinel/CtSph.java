@@ -44,7 +44,7 @@ public class CtSph implements Sph {
      * {@link ProcessorSlotChain}, no matter in which {@link Context}.
      */
     private static volatile Map<ResourceWrapper, ProcessorSlotChain> chainMap
-        = new HashMap<ResourceWrapper, ProcessorSlotChain>();
+        = new HashMap<>();
 
     private static final Object LOCK = new Object();
 
@@ -121,6 +121,7 @@ public class CtSph implements Sph {
         // 创建一个 Context，作为此次调用的上下文对象。
         if (context == null) {
             // Using default context.
+            // 默认的 Context，name 都是一致的，这是什么道理。
             context = InternalContextUtil.internalEnter(Constants.CONTEXT_DEFAULT_NAME);
         }
 
@@ -130,6 +131,8 @@ public class CtSph implements Sph {
         }
 
         // 创建或者获取 slotChain
+        // 这些 slot 应该是持久化的吧，不然数据怎么判断呢？
+        // slot 和 resource 绑定的，不根据 Context 来。
         ProcessorSlot<Object> chain = lookProcessChain(resourceWrapper);
 
         /*
@@ -190,6 +193,7 @@ public class CtSph implements Sph {
      * @param resourceWrapper target resource
      * @return {@link ProcessorSlotChain} of the resource
      */
+    // 注意：processorSlot 是和 resource 绑定的。
     ProcessorSlot<Object> lookProcessChain(ResourceWrapper resourceWrapper) {
         ProcessorSlotChain chain = chainMap.get(resourceWrapper);
         if (chain == null) {
@@ -202,8 +206,8 @@ public class CtSph implements Sph {
                     }
 
                     chain = SlotChainProvider.newSlotChain();
-                    Map<ResourceWrapper, ProcessorSlotChain> newMap = new HashMap<ResourceWrapper, ProcessorSlotChain>(
-                        chainMap.size() + 1);
+                    Map<ResourceWrapper, ProcessorSlotChain> newMap = new HashMap<>(
+                            chainMap.size() + 1);
                     newMap.putAll(chainMap);
                     newMap.put(resourceWrapper, chain);
                     chainMap = newMap;

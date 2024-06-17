@@ -38,6 +38,9 @@ import java.util.Set;
  * @author qinan.qn
  * @see NodeSelectorSlot
  */
+// 什么意思，Each distinct resource in each distinct {@link Context} will corresponding to a {@link DefaultNode}.
+// 合着全局只有一个 DefaultNode 吗？
+// update: DefaultNode 的创建和 Resource Id 以及 Context name 相关，Context name 如果不指定，默认就是 sentinel_default_context，那么就是全局只有一个。
 public class DefaultNode extends StatisticNode {
 
     /**
@@ -167,4 +170,12 @@ public class DefaultNode extends StatisticNode {
         }
     }
 
+    @Override
+    public String toString() {
+        return "DefaultNode{" +
+                "name=" + id.getName() +
+                ", childList=" + childList +
+                ", clusterNode=" + clusterNode +
+                '}';
+    }
 }

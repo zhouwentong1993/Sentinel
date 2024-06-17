@@ -14,22 +14,33 @@ import java.util.concurrent.TimeUnit;
 
 public class Sample1 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // 配置规则.
         initFlowRules();
 
         while (true) {
-            // 1.5.0 版本开始可以直接利用 try-with-resources 特性
-            try (Entry entry = SphU.entry("HelloWorld")) {
-                // 被保护的逻辑
-                System.out.println("hello world");
-                TimeUnit.MILLISECONDS.sleep(10);
-            } catch (BlockException ex) {
-                // 处理被流控的逻辑
-                System.out.println("blocked!");
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            new Thread(() -> {
+                // 1.5.0 版本开始可以直接利用 try-with-resources 特性
+//                ContextUtil.enter(UUID.randomUUID().toString());
+                try (Entry entry = SphU.entry("HelloWorld")) {
+                    // 被保护的逻辑
+                    System.out.println("hello world");
+                } catch (BlockException ex) {
+                    // 处理被流控的逻辑
+                    System.out.println("blocked!");
+                }
+                // 1.5.0 版本开始可以直接利用 try-with-resources 特性
+//                ContextUtil.enter(UUID.randomUUID().toString());
+                try (Entry entry = SphU.entry("HelloWorld1")) {
+                    // 被保护的逻辑
+                    System.out.println("hello world1");
+                } catch (BlockException ex) {
+                    // 处理被流控的逻辑
+                    System.out.println("blocked!");
+                }
+            }).start();
+            TimeUnit.SECONDS.sleep(1);
+
 //            helloWorld();
         }
     }

@@ -58,7 +58,7 @@ public class StatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
             // Do some checking.
             // 这里代表先触发下一个的逻辑
             fireEntry(context, resourceWrapper, node, count, prioritized, args);
-            System.out.println("after fireEntry!" + this);
+//            System.out.println("after fireEntry!" + this);
 
             // Request passed, add thread count and pass count.
             // 请求数，这里还没有到响应数呢

@@ -36,7 +36,7 @@ import com.alibaba.csp.sentinel.slots.nodeselector.NodeSelectorSlot;
  * @see ContextUtil#enter(String, String)
  * @see NodeSelectorSlot
  */
-// 这个 Node 是跟 Context 相关的
+// 这个 Node 是跟 Context 相关的，作为入口的 Node
 public class EntranceNode extends DefaultNode {
 
     public EntranceNode(ResourceWrapper id, ClusterNode clusterNode) {

@@ -89,7 +89,7 @@ class CtEntry extends Entry {
 
     protected void exitForContext(Context context, int count, Object... args) throws ErrorEntryFreeException {
         if (context != null) {
-            System.out.println(context.getCurEntry() + "exit!");
+//            System.out.println(context.getCurEntry() + "exit!");
             // Null context should exit without clean-up.
             if (context instanceof NullContext) {
                 return;
