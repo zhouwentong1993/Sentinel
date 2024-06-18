@@ -65,6 +65,8 @@ public class StatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
             node.increaseThreadNum();
             node.addPassRequest(count);
 
+            // 调用源的统计，比如我的服务是 ServiceA，被 ServiceB 调用。此时，ServiceB 就是 origin。
+            // 问题来了，并发怎么保证呢？很简单，originNode 是放在 Context 上的，Context 是 ThreadLocal 的，天生线程安全且隔离。
             if (context.getCurEntry().getOriginNode() != null) {
                 // Add count for origin node.
                 context.getCurEntry().getOriginNode().increaseThreadNum();

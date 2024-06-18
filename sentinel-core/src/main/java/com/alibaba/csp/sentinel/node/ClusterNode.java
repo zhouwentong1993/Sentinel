@@ -41,7 +41,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author qinan.qn
  * @author jialiang.linjl
  */
-// 全局限流 Node，类似于分布式限流。
+// ClusterNode 不是分布式限流，类似于在全局统计的结果。与 Resource 一一对应关系
 public class ClusterNode extends StatisticNode {
 
     private final String name;
@@ -56,6 +56,7 @@ public class ClusterNode extends StatisticNode {
         this.name = name;
         this.resourceType = resourceType;
     }
+    // origin 是什么概念？翻译过来是来源的意思。对于服务 A 请求 Redis，谁是 origin？
 
     /**
      * <p>The origin map holds the pair: (origin, originNode) for one specific resource.</p>
@@ -98,6 +99,8 @@ public class ClusterNode extends StatisticNode {
      *               {@link ContextUtil#enter(String name, String origin)}.
      * @return the {@link Node} of the specific origin
      */
+    // origin 是调用源的意思
+    // 这里会针对每一个调用源来创建 StatisticNode，系统运行一会儿，这个调用源映射关系就会变得稳定了。
     public Node getOrCreateOriginNode(String origin) {
         StatisticNode statisticNode = originCountMap.get(origin);
         if (statisticNode == null) {
@@ -106,6 +109,7 @@ public class ClusterNode extends StatisticNode {
                 statisticNode = originCountMap.get(origin);
                 if (statisticNode == null) {
                     // The node is absent, create a new node for the origin.
+                    // COW 机制
                     statisticNode = new StatisticNode();
                     HashMap<String, StatisticNode> newMap = new HashMap<>(originCountMap.size() + 1);
                     newMap.putAll(originCountMap);

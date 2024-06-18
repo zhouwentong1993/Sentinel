@@ -160,6 +160,7 @@ public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
 //        System.out.println("Current context:" + context.hashCode() + ", name is: " + context.getName());
         if (node == null) {
 //            System.out.println("Node is null, context name is:" + context.getName());
+            // 由于多个 Context 会共享一个 Node，所以需要做双重判断。
             synchronized (this) {
                 node = map.get(context.getName());
                 if (node == null) {

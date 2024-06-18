@@ -37,6 +37,7 @@ import com.alibaba.csp.sentinel.slots.nodeselector.NodeSelectorSlot;
  * @see NodeSelectorSlot
  */
 // 这个 Node 是跟 Context 相关的，作为入口的 Node
+    // 一个 Context 对应一个 EntranceNode。
 public class EntranceNode extends DefaultNode {
 
     public EntranceNode(ResourceWrapper id, ClusterNode clusterNode) {
