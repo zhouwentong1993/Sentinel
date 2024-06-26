@@ -15,13 +15,13 @@
  */
 package com.alibaba.csp.sentinel.slots.statistic.base;
 
+import com.alibaba.csp.sentinel.util.AssertUtil;
+import com.alibaba.csp.sentinel.util.TimeUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
-
-import com.alibaba.csp.sentinel.util.AssertUtil;
-import com.alibaba.csp.sentinel.util.TimeUtil;
 
 /**
  * <p>
@@ -43,7 +43,7 @@ public abstract class LeapArray<T> {
     protected int windowLengthInMs;
     protected int sampleCount;
     protected int intervalInMs;
-    private double intervalInSecond;
+    private final double intervalInSecond;
 
     protected final AtomicReferenceArray<WindowWrap<T>> array;
 
@@ -144,7 +144,7 @@ public abstract class LeapArray<T> {
                  * then try to update circular array via a CAS operation. Only one thread can
                  * succeed to update, while other threads yield its time slice.
                  */
-                WindowWrap<T> window = new WindowWrap<T>(windowLengthInMs, windowStart, newEmptyBucket(timeMillis));
+                WindowWrap<T> window = new WindowWrap<>(windowLengthInMs, windowStart, newEmptyBucket(timeMillis));
                 if (array.compareAndSet(idx, null, window)) {
                     // Successfully updated, return the created bucket.
                     return window;
@@ -196,7 +196,7 @@ public abstract class LeapArray<T> {
                 }
             } else if (windowStart < old.windowStart()) {
                 // Should not go through here, as the provided time is already behind.
-                return new WindowWrap<T>(windowLengthInMs, windowStart, newEmptyBucket(timeMillis));
+                return new WindowWrap<>(windowLengthInMs, windowStart, newEmptyBucket(timeMillis));
             }
         }
     }

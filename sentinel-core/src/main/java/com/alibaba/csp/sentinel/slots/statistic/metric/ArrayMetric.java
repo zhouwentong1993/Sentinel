@@ -15,17 +15,17 @@
  */
 package com.alibaba.csp.sentinel.slots.statistic.metric;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.csp.sentinel.config.SentinelConfig;
 import com.alibaba.csp.sentinel.node.metric.MetricNode;
 import com.alibaba.csp.sentinel.slots.statistic.MetricEvent;
 import com.alibaba.csp.sentinel.slots.statistic.base.LeapArray;
-import com.alibaba.csp.sentinel.slots.statistic.data.MetricBucket;
 import com.alibaba.csp.sentinel.slots.statistic.base.WindowWrap;
+import com.alibaba.csp.sentinel.slots.statistic.data.MetricBucket;
 import com.alibaba.csp.sentinel.slots.statistic.metric.occupy.OccupiableBucketLeapArray;
 import com.alibaba.csp.sentinel.util.function.Predicate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The basic metric class in Sentinel using a {@link BucketLeapArray} internal.
@@ -118,6 +118,8 @@ public class ArrayMetric implements Metric {
 
     @Override
     public long occupiedPass() {
+        // 为什么需要调用这个呢？是因为要闲着没事儿就创建一下，避免过期吗？
+        // 如果是为了统计，此时肯定是空的，没有意义。
         data.currentWindow();
         long pass = 0;
         List<MetricBucket> list = data.values();

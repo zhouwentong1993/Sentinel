@@ -124,6 +124,7 @@ import java.util.Map;
  * @see EntranceNode
  * @see ContextUtil
  */
+// 主要功能是按照不同维度（Resource、Context）来构建 Node 节点树
 @Spi(isSingleton = false, order = Constants.ORDER_NODE_SELECTOR_SLOT)
 public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
 
